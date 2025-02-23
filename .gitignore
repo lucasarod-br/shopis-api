@@ -1,0 +1,15 @@
+# Python
+*.py[cod]
+__pycache__/
+
+# Virtual environments
+env/
+venv/
+
+# FastAPI
+*.log
+*.db
+
+# VS Code
+.vscode/
+s
