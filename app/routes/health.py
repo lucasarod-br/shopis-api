@@ -1,27 +1,29 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from ..database import SessionLocal, get_db
+from ..utils.logger import logger
+from ..utils.db_session import get_db
+from sqlalchemy.sql import text
 
 router = APIRouter()
 
-# Função para verificar a conexão com o banco de dados
+# Function to check the database connection
 def check_db_health(db: Session):
     try:
-        # Executa uma query simples para testar a conexão
-        db.execute("SELECT 1").fetchone()
+        db.execute(text("SELECT 1")).fetchone()
         return True
     except Exception as e:
         print(f"Database health check failed: {e}")
         return False
 
-# Rota de health check
+# Health check route
 @router.get("/health")
 def health_check(db: Session = Depends(get_db)):
-    # Verifica se a aplicação está respondendo
+    # Check if the application is responding
     app_status = {"status": "up"}
 
-    # Verifica a saúde do banco de dados
+    # Check the health of the database
     if not check_db_health(db):
+        logger.error("Database is down")
         raise HTTPException(status_code=500, detail="Database is down")
 
     return {"app": app_status, "database": "up"}
