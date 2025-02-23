@@ -1,5 +1,5 @@
-from ..database import SessionLocal
-from .logger import logger
+from app.database import SessionLocal
+from app.utils.logger import logger
 
 # Create a function to open the database session
 def get_db():

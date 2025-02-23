@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from .routes import health
-from .utils.logger import logger
+from app.routes import health
+from app.utils.logger import logger
 
 # Create an instance of FastAPI
 app = FastAPI()
